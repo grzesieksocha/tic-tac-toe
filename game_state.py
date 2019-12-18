@@ -25,7 +25,6 @@ class GameState:
         font = pygame.font.SysFont('Arial', 30)
 
         player_text = font.render(self.player, True, (200, 200, 200))
-        sign_text = font.render(self.weapon, True, (200, 200, 200))
 
         x, y = pygame.mouse.get_pos()
         surface.blit(player_text, (50, 30))

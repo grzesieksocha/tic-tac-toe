@@ -1,6 +1,5 @@
 import pygame
 import os
-from game_manager import switch_player
 from tile import Tile
 
 weapon_x = pygame.image.load(os.path.join('images', 'x.png'))
@@ -37,6 +36,7 @@ class Grid:
     def hit(self, tile):
         if not self.tiles[tile].sign:
             self.tiles[tile].hit(self.game_state.weapon)
-            switch_player(self.game_state)
+            return True
         else:
             self.game_state.set_player('Invalid move!')
+            return False

@@ -1,7 +1,7 @@
 import pygame
 from grid import Grid
 from game_state import GameState
-from game_manager import is_over
+from game_manager import is_over, switch_player
 
 import os
 
@@ -10,9 +10,12 @@ os.environ['SDL_VIDEO_WINDOW_POS'] = '1000, 400'
 surface = pygame.display.set_mode((600, 700))
 
 pygame.display.set_caption('Tic Tac Toe')
+clock = pygame.time.Clock()
 
 game_state = GameState()
 grid = Grid(game_state)
+
+game_over = False
 
 while True:
     for event in pygame.event.get():
@@ -20,17 +23,22 @@ while True:
             pygame.quit()
             quit()
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if not game_over and event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed()[0]:
                 pos = pygame.mouse.get_pos()
                 tile = (pos[0] // 200, (pos[1] - 100) // 200)
-                grid.hit(tile)
+                valid_hit = grid.hit(tile)
+                if valid_hit:
+                    game_over = is_over(tile, grid.tiles)
 
-        if is_over(grid.tiles):
-            game_state.set_player('.... WINS!')
+                if game_over:
+                    game_state.set_player(f'{game_state.weapon} WINS!')
+
+                if valid_hit and not game_over:
+                    switch_player(game_state)
 
     surface.fill((0, 0, 0))
     grid.draw(surface)
     game_state.draw(surface)
-
+    clock.tick(60)
     pygame.display.flip()
