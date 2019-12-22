@@ -21,7 +21,6 @@ class GameState:
         self.weapon = sign
 
     def draw(self, surface: pygame.display):
-        pygame.font.init()
         font = pygame.font.SysFont('Arial', 30)
 
         player_text = font.render(self.player, True, (200, 200, 200))
