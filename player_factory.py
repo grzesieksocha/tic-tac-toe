@@ -40,4 +40,5 @@ class PlayerFactory:
                         elif p.match(event.unicode):
                             input_name += event.unicode
 
+            player.name = input_name
         return player_one, player_two
